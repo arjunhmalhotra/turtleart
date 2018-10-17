@@ -1,0 +1,90 @@
+
+'''
+This program draws a tree with fork structures as branches.
+'''
+
+
+import turtle
+
+#----------------------------- TREE FUNCTION -----------------
+
+def treewb(tortoise,depth,length):
+    '''
+This function draws a tree.
+Parameter:
+tortoise:       drawing objects
+depth:          level of treewb curve detail
+length:         size of line segment
+
+Return value: none
+    '''
+    
+    angle = 22.5
+    stack = []              #stack storing turtle state
+
+    if depth == 0:
+        tortoise.forward(length)
+    else:
+        treewb(tortoise,depth-1, length)
+        treewb(tortoise,depth-1, length)
+        tortoise.right(angle)
+
+        #remember branch
+        stack.append(tortoise.xcor())
+        stack.append(tortoise.ycor())
+        stack.append(tortoise.heading())
+        
+        tortoise.right(angle)
+        treewb(tortoise,depth-1, length)
+        tortoise.left(angle)
+        treewb(tortoise,depth-1, length)
+        tortoise.left(angle)
+        treewb(tortoise,depth-1, length)
+        
+        #recall branch
+        tortoise.up()
+        tortoise.setheading( stack.pop() )
+        tortoise.sety( stack.pop() )
+        tortoise.setx( stack.pop() )
+        tortoise.down()
+
+        tortoise.left(angle)
+
+        stack.append(tortoise.xcor())
+        stack.append(tortoise.ycor())
+        stack.append(tortoise.heading())
+        
+        tortoise.left(angle)
+        treewb(tortoise,depth-1, length)
+        tortoise.right(angle)
+        treewb(tortoise,depth-1, length)
+        tortoise.right(angle)
+        treewb(tortoise,depth-1, length)
+
+        
+        tortoise.up()
+        tortoise.setheading( stack.pop() )
+        tortoise.sety( stack.pop() )
+        tortoise.setx( stack.pop() )
+        tortoise.down()
+        
+#------------------------ MAIN --------------------------------
+
+def main():
+    fred = turtle.Turtle()
+    fred.setheading(90)
+    fred.speed(0)
+    fred.up()
+    fred.goto(-200,-200)
+    fred.down()
+
+    treewb(fred, 4, 7)
+    
+
+    
+
+
+    screen = fred.getscreen()
+    screen.exitonclick
+#-----------------------------------------
+main()
